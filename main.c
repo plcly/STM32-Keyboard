@@ -322,10 +322,24 @@ void SendFNReport(void)
 
 void SendFNReportDetail(uint8_t reportF,uint8_t reportFModifier)
 {
-	reportFn[0]=reportFModifier;
+	switch(reportFModifier)
+	{
+		case 0xE0: reportFn[0]|= 0x01;break;//0b00000001
+		case 0xE1: reportFn[0]|= 0x02;break;//0b00000010
+		case 0xE2: reportFn[0]|= 0x04;break;//0b00000100
+		case 0xE3: reportFn[0]|= 0x08;break;//0b00001000
+		case 0xE4: reportFn[0]|= 0x10;break;//0b00010000
+		case 0xE5: reportFn[0]|= 0x20;break;//0b00100000
+		case 0xE6: reportFn[0]|= 0x40;break;//0b01000000
+		case 0xE7: reportFn[0]|= 0x80;break;//0b10000000
+		default: reportFn[0]|=0x0; break;
+	}
+	
 	reportFn[2]=reportF;
 	USBD_HID_SendReport(&hUsbDeviceFS,reportFn,8);
+	
 	HAL_Delay(10);
+	
 	reportFn[0]=0;
 	reportFn[2]=0;
 	USBD_HID_SendReport(&hUsbDeviceFS,reportFn,8);
