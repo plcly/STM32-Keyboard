@@ -64,7 +64,7 @@ struct PressedKeyChars GetKeyChar(uint8_t rowNum, uint32_t columnNum);
 uint32_t GetColumn(void);
 uint8_t IsModifierKey(uint8_t keyChar);
 void SendFNReport(void);
-void SendFNReportDetail(uint8_t reportF,uint8_t reportFModifier);
+void SendFNReportDetail(uint8_t reportF,uint8_t reportFModifier, uint8_t delayMs);
 
 struct PressedKeyChars GetRow1(uint32_t columnNum);
 struct PressedKeyChars GetRow2(uint32_t columnNum);
