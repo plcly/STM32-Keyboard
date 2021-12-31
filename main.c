@@ -320,7 +320,7 @@ void SendFNReport(void)
 	memset(reportFn,0,sizeof(reportFn));
 }
 
-void SendFNReportDetail(uint8_t reportF,uint8_t reportFModifier)
+void SendFNReportDetail(uint8_t reportF,uint8_t reportFModifier, uint8_t delayMs)
 {
 	switch(reportFModifier)
 	{
@@ -338,12 +338,17 @@ void SendFNReportDetail(uint8_t reportF,uint8_t reportFModifier)
 	reportFn[2]=reportF;
 	USBD_HID_SendReport(&hUsbDeviceFS,reportFn,8);
 	
-	HAL_Delay(10);
+	HAL_Delay(delayMs);
 	
-	reportFn[0]=0;
 	reportFn[2]=0;
 	USBD_HID_SendReport(&hUsbDeviceFS,reportFn,8);
-	HAL_Delay(10);
+	if(reportFn[0]>0)
+	{
+		HAL_Delay(delayMs);
+		reportFn[0]=0;
+		USBD_HID_SendReport(&hUsbDeviceFS,reportFn,8);
+	}
+	HAL_Delay(delayMs);
 }
 
 uint8_t IsModifierKey(uint8_t keyChar)
