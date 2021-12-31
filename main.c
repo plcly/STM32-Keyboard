@@ -335,6 +335,11 @@ void SendFNReportDetail(uint8_t reportF,uint8_t reportFModifier, uint8_t delayMs
 		default: reportFn[0]|=0x0; break;
 	}
 	
+	if(reportFn[0]>0)
+	{
+		USBD_HID_SendReport(&hUsbDeviceFS,reportFn,8);
+		HAL_Delay(delayMs);
+	}
 	reportFn[2]=reportF;
 	USBD_HID_SendReport(&hUsbDeviceFS,reportFn,8);
 	
